@@ -157,7 +157,8 @@ function solve!(x, ml::MultiLevel, b::AbstractArray{T},
     A = length(ml) == 1 ? ml.final_A : ml.levels[1].A
     V = promote_type(eltype(A), eltype(b))
     log && (residuals = Vector{V}())
-    normres = normb = norm(b)
+    normb = norm(b)
+    normres = norm(ml.levels[1].A * x - b)
     if normb != 0
         abstol = max(reltol * normb, abstol)
     end
